@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Uncertain Nights — Web Edition</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    #dialogue {
+      margin: 20px auto;
+      width: 80%;
+      min-height: 150px;
+      background: rgba(20,20,20,0.9);
+      padding: 15px;
+      border-radius: 8px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      background: darkred;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #overlay {
+      position: fixed;
+      top:0; left:0; right:0; bottom:0;
+      background: white;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Uncertain Nights</h1>
+  <p>Five atmospheric episodes. Choices shape consequence.</p>
+
+  <div id="dialogue">Click a choice to begin...</div>
+  <button onclick="playEpisode(1)">Episode 1: Home Invasion</button>
+  <button onclick="playEpisode(2)">Episode 2: Drunk Driving</button>
+
+  <div id="overlay"></div>
+
+  <audio id="ambience" src="assets/ambience_loop.mp3" loop></audio>
+  <audio id="whisper" src="assets/whisper1.mp3"></audio>
+  <audio id="knock" src="assets/knock.mp3"></audio>
+  <audio id="sting" src="assets/sting.mp3"></audio>
+
+  <script>
+    function showDialogue(lines, callback) {
+      const box = document.getElementById("dialogue");
+      box.innerHTML = "";
+      let i = 0;
+      function nextLine() {
+        if (i < lines.length) {
+          box.innerHTML += lines[i] + "<br><br>";
+          i++;
+          setTimeout(nextLine, 1200);
+        } else if (callback) callback();
+      }
+      nextLine();
+    }
+
+    function playEpisode(ep) {
+      document.getElementById("ambience").play();
+      if (ep === 1) {
+        showDialogue([
+          "Late night. Small sounds feel amplified.",
+          "A knock at the door..."
+        ], () => {
+          document.getElementById("knock").play();
+          setTimeout(() => jumpScare("Intruder slips inside!"), 3000);
+        });
+      }
+      if (ep === 2) {
+        showDialogue([
+          "A party dissolves into a decision.",
+          "The car ride is a corridor of bad choices..."
+        ], () => {
+          document.getElementById("whisper").play();
+          setTimeout(() => jumpScare("Crash! Consequences are heavy."), 4000);
+        });
+      }
+    }
+
+    function jumpScare(message) {
+      const overlay = document.getElementById("overlay");
+      overlay.style.display = "block";
+      document.getElementById("sting").play();
+      setTimeout(() => {
+        overlay.style.display = "none";
+        document.getElementById("dialogue").innerHTML = message;
+      }, 800);
+    }
+  </script>
+</body>
+</html>
