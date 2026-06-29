@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Click the Box Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: tomato;
+      position: absolute;
+      top: 200px;
+      left: 200px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Click the Box!</h1>
+  <p>Score: <span id="score">0</span></p>
+  <div id="box"></div>
+
+  <script>
+    let score = 0;
+    const box = document.getElementById("box");
+    const scoreDisplay = document.getElementById("score");
+
+    box.addEventListener("click", () => {
+      score++;
+      scoreDisplay.textContent = score;
+      // Move the box to a random position
+      box.style.top = Math.random() * 400 + "px";
+      box.style.left = Math.random() * 600 + "px";
+    });
+  </script>
+</body>
+</html>
